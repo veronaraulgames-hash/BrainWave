@@ -14,13 +14,13 @@ html, body {
   background: linear-gradient(to bottom, #9e9e9e, #111);
   color: #eee;
   overflow: hidden;
-  font-size: 16px; /* força tamanho consistente */
+  font-size: 16px;
 }
 
 /* Tela de início */
 #startScreen {
   position: fixed;
-  top:0; left:0; right:0; bottom:0;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,8 +29,6 @@ html, body {
   text-align: center;
   z-index: 100;
   width: 100%;
-  max-width: 430px;
-  margin: 0 auto;
 }
 
 #startScreen h1 {
@@ -65,13 +63,11 @@ html, body {
 /* Chat */
 #app {
   position: fixed;
-  top:0; left:0; right:0; bottom:0;
+  inset: 0;
   display: none;
   flex-direction: column;
   background: linear-gradient(to bottom, #9e9e9e, #111);
   width: 100%;
-  max-width: 430px;
-  margin: 0 auto;
 }
 
 #marca {
@@ -109,11 +105,11 @@ html, body {
   line-height: 1.4;
   white-space: pre-wrap;
   word-wrap: break-word;
-  max-width: 80%; /* usa porcentagem da tela */
+  max-width: 80vw; /* agora usa porcentagem da viewport */
   opacity: 0;
   transform: scale(0.9);
   animation: fadeGrow 0.25s forwards;
-  margin-bottom: 8px; /* espaço entre mensagens */
+  margin-bottom: 8px;
 }
 
 .user { align-self: flex-end; margin-left: auto; }
@@ -143,8 +139,8 @@ html, body {
   border-radius: 999px;
   padding: 8px;
   gap: 8px;
-  width: 100%;
-  max-width: 430px;
+  width: 95%; /* sempre proporcional à tela */
+  max-width: none;
 }
 
 #pergunta {
@@ -268,7 +264,6 @@ async function enviar() {
   chat.innerHTML += `<div class="balao bot">${resposta.texto}${resposta.imgTag}${resposta.linkTag}</div>`;
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  // Lê só o texto (ignora emojis e links)
   if ('speechSynthesis' in window) {
     let cleanText = resposta.texto.replace(/<[^>]*>/g,"");
     cleanText = cleanText.replace(/[\u{1F600}-\u{1F64F}]/gu,""); // remove emojis
